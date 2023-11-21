@@ -1,0 +1,36 @@
+POST http://localhost:8181/index/cards
+
+### search
+POST http://localhost:8181/index/search/products
+Content-Type: application/json
+
+{
+  "searchString": "плед"
+}
+
+### filter
+POST http://localhost:8181/index/filter/products
+Content-Type: application/json
+
+{
+  "category": "одежда",
+  "sort": {
+    "sortBy": "price"
+  }
+}
+
+### filter: scroll to next page
+POST http://localhost:8181/index/filter/products
+Content-Type: application/json
+
+{
+  "pit": "k-WAQQMIcHJvZHVjdHMWcVQyeHp3WGhUTmVCWkljM2VxQkNjZwEWZEpzZ1VDYmhRQ2FNcDN4M19LU2JldwAAAAAAAAAAJhZDUFU0XzZ6blRCZW05RzE1VG9kdUZnCHByb2R1Y3RzFnFUMnh6d1hoVE5lQlpJYzNlcUJDY2cCFmRKc2dVQ2JoUUNhTXAzeDNfS1NiZXcAAAAAAAAAACcWQ1BVNF82em5UQmVtOUcxNVRvZHVGZwhwcm9kdWN0cxZxVDJ4endYaFROZUJaSWMzZXFCQ2NnABZkSnNnVUNiaFFDYU1wM3gzX0tTYmV3AAAAAAAAAAAlFkNQVTRfNnpuVEJlbTlHMTVUb2R1RmcBFnFUMnh6d1hoVE5lQlpJYzNlcUJDY2cAAA==",
+  "category": "одежда",
+  "sort": {
+    "sortBy": "price",
+    "value": 1600.0
+  }
+}
+
+### create test data
+POST http://localhost:8181/index/create-test-data

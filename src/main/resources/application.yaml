@@ -1,0 +1,7 @@
+server:
+  port: 8181
+
+opensearch:
+  uris: http://localhost:9200
+  username: admin
+  password: admin
