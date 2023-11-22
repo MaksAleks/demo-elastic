@@ -1,7 +1,9 @@
 version: '3'
 services:
   opensearch-node1: # This is also the hostname of the container within the Docker network (i.e. https://opensearch-node1/)
-    image: opensearchproject/opensearch:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: opensearch-node1
     environment:
       - cluster.name=opensearch-cluster # Name the cluster
@@ -20,6 +22,7 @@ services:
         hard: 65536
     volumes:
       - opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+      - ./config/synonyms:/usr/share/opensearch/config/synonyms
     ports:
       - 9200:9200 # REST API
       - 9600:9600 # Performance Analyzer
@@ -45,6 +48,7 @@ services:
         hard: 65536
     volumes:
       - opensearch-data2:/usr/share/opensearch/data
+      - ./config/synonyms:/usr/share/opensearch/config/synonyms
     networks:
       - opensearch-net
   opensearch-dashboards:
