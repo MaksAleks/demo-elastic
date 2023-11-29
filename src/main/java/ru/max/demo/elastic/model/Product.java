@@ -16,4 +16,5 @@ public class Product {
     private Double rating;
     private Double popularity;
     private Location location;
+    private Integer score;
 }

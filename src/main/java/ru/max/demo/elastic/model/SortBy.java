@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SortBy {
 
+    SCORE("score"),
     POPULARITY("popularity"),
     PRICE("price");
 

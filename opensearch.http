@@ -1,11 +1,18 @@
 POST http://localhost:8181/index/cards
 
 ### search
-POST http://localhost:8181/index/search/products
+POST http://localhost:8181/index/products/search
 Content-Type: application/json
 
 {
-  "searchString": "плед"
+  "searchString": "ваза керамическая синяя",
+  "filters": [{
+    "type": "single",
+    "field": "category",
+    "value": "декор для дома"
+  }],
+  "sortBy": "price",
+  "nextPage": "eyJwaXQiOiJrLVdBUVFNSWNISnZaSFZqZEhNV2FFbFZRWGRpY0hCVGVXbHBSa0oxTWw5aGRFVjVRUUFXVkZKVFUwbzFlRnBUTWkxUFdXdE5VRmRZZEVGRVp3QUFBQUFBQUFBQXpoWjZWa3c1VUdKa1NGUnNhVWRvTUhVd1kwZENMVWhuQ0hCeWIyUjFZM1J6Rm1oSlZVRjNZbkJ3VTNscGFVWkNkVEpmWVhSRmVVRUJGbVJLYzJkVlEySm9VVU5oVFhBemVETmZTMU5pWlhjQUFBQUFBQUFBQUdNV1dtdGFNa010VlhWU01HVXpYemMxVG5KWlRGUm9ad2h3Y205a2RXTjBjeFpvU1ZWQmQySndjRk41YVdsR1FuVXlYMkYwUlhsQkFoWmtTbk5uVlVOaWFGRkRZVTF3TTNnelgwdFRZbVYzQUFBQUFBQUFBQUJrRmxwcldqSkRMVlYxVWpCbE0xODNOVTV5V1V4VWFHY0JGbWhKVlVGM1luQndVM2xwYVVaQ2RUSmZZWFJGZVVFQUFBPT0iLCJzb3J0VmFsdWVzIjpbMTcwMC4wLDI0LjQ5NTM4Ml19"
 }
 
 ### filter
