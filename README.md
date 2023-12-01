@@ -1124,7 +1124,7 @@ Content-Type: application/json
   "query": {
     "match": {
       "name": {
-        "query": "синя вза",
+        "query": "син ваз",
         "fuzziness": "AUTO",
         "operator": "and"
       }
@@ -1574,7 +1574,7 @@ c [типом most_fields](https://www.elastic.co/guide/en/elasticsearch/referen
 
 1) **Популярность**
 
-Если пользователь не отсортировал по популярности, все равно кажется, что популярность должна влиять на порядок в выдаче
+Если пользователь не отсортировал результаты, все равно кажется, что популярность должна влиять на порядок в выдаче
 результатов.
 
 Да и в целом, не только популярность может влиять на выдачу, а куча всего: местоположение, наличие проплаченной
@@ -1595,4 +1595,21 @@ c [типом most_fields](https://www.elastic.co/guide/en/elasticsearch/referen
 
 А пока что:
 
-### Search As You Type
+### Autocompletion and search as you type suggestions
+
+Пользователи хотят:
+- автокомплитить ввод: когда следующее слово само появлятеся в строке поиска, и пользователи нажимают таб
+- получать варианты поискового запроса в выпадаюшем списке ниже
+
+Пример на  скрине ниже:
+![search-bar-autocomplete.png](imgs%2Fsearch-bar-autocomplete.png)
+
+В elasticsearch для этого есть:
+- [completion suggester](https://opensearch.org/docs/2.11/search-plugins/searching-data/autocomplete/#completion-suggester)
+    Подходит как раз для первого варианта
+- [специальный тип search-as-you-type](https://opensearch.org/docs/2.11/search-plugins/searching-data/autocomplete/#search-as-you-type)
+    Подходит для второго варианта
+
+Рассмотрим сначала 
+#### Search-As-You-Type
+

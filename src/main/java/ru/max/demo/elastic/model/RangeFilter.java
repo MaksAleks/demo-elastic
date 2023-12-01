@@ -19,8 +19,10 @@ public class RangeFilter extends Filter {
 
     @Override
     public void applyTo(BoolQueryBuilder boolQueryBuilder) {
-        boolQueryBuilder.filter(QueryBuilders.rangeQuery(field)
-                .from(Objects.requireNonNull(value.getFrom()))
-                .to(Objects.requireNonNull(value.getTo())));
+        boolQueryBuilder.filter(
+                QueryBuilders.rangeQuery(field)
+                        .from(Objects.requireNonNull(value.getFrom()))
+                        .to(Objects.requireNonNull(value.getTo()))
+        );
     }
 }

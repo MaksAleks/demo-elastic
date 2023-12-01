@@ -12,6 +12,6 @@ import java.util.List;
 public class SearchRequest {
     private String searchString;
     private List<Filter> filters;
-    private String sortBy = SortBy.SCORE.getValue();
+    private String sortBy;
     private String nextPage;
 }

@@ -1,0 +1,1645 @@
+{
+	"info": {
+		"_postman_id": "e3e02e57-4d0e-4656-9a8f-2c45ab2ed68f",
+		"name": "opensearch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1310169",
+		"_collection_link": "https://blue-crescent-915219.postman.co/workspace/My-Workspace~4150bde0-798c-448e-8861-e6787c33e993/collection/1310169-e3e02e57-4d0e-4656-9a8f-2c45ab2ed68f?action=share&source=collection_link&creator=1310169"
+	},
+	"item": [
+		{
+			"name": "index",
+			"item": [
+				{
+					"name": "Create Index",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"settings\": {\n        \"number_of_shards\": 3,\n        \"number_of_replicas\": 1\n    },\n    \"mappings\": {\n        \"properties\": {\n            \"name\": {\n                \"type\": \"text\",\n                \"analyzer\": \"russian\",\n                \"fields\": {\n                    \"std\": {\n                        \"type\": \"text\",\n                        \"analyzer\": \"standard\"\n                    },\n                    \"search-as-you-type\": {\n                        \"type\": \"search_as_you_type\"\n                    }\n                }\n            },\n            \"description\": {\n                \"type\": \"text\",\n                \"analyzer\": \"russian\"\n            },\n            \"category\": {\n                \"type\": \"keyword\"\n            },\n            \"price\": {\n                \"type\": \"double\"\n            },\n            \"rating\": {\n                \"type\": \"double\"\n            },\n            \"popularity\": {\n                \"type\": \"double\"\n            },\n            \"location\": {\n                \"type\": \"geo_point\"\n            },\n            \"score\": {\n                \"type\": \"short\"\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Index",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"settings\": {\n    \"index\": {\n      \"number_of_shards\": 2,\n      \"number_of_replicas\": 1\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Configure Analyzer",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"properties\": {\n        \"name\": {\n            \"type\": \"text\",\n            \"analyzer\": \"russian\"\n        },\n        \"description\": {\n            \"type\": \"text\",\n            \"analyzer\": \"russian\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_mapping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_mapping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Analyzer",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"analyzer\": \"russian\",\n    \"text\": \"Привет. Я проживаю в Санкт-Петерубрге. Это очень красивое место\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/_analyze",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_analyze"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Index Settings",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/_settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"_settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Index",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9200/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "docs",
+			"item": [
+				{
+					"name": "mapping",
+					"item": [
+						{
+							"name": "View Mapping",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9200/products/_mapping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"products",
+										"_mapping"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Mapping",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"properties\": {\n        \"tag\": {\n            \"type\": \"text\",\n            \"index\": true,\n            \"boost\": 2.0\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/products/_mapping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"products",
+										"_mapping"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Analyze Mapping",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"field\": \"description\",\n    \"text\": \"декоритивная керамическая ваза синего цвета\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/products/_analyze",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"products",
+										"_analyze"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Upsert Doc",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Enc",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ваза\",\n    \"description\": \"ваза декоративная синяя\",\n    \"rating\": 4.50,\n    \"price\": 5200.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_doc/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_doc",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Doc",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"декор для дома\",\n    \"name\": \"Керамическая синяя кружка\",\n    \"description\": \"Кружка керамическая синяя большая. Подходит для пива\" \n    \"price\": 1700.00,\n    \"rating\": 4.2,\n    \"popularity\": 0.75,\n    \"location\": {\n        \"lat\": 40.71,\n        \"lon\": 74.00\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_doc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_doc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Doc",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"doc\": {\n        \"body\": \"Quick rown rabbits are commonly seen.\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/blogposts/_update/zuZww4sBKp9jjlQkbozY",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"blogposts",
+								"_update",
+								"zuZww4sBKp9jjlQkbozY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Doc",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9200/blogposts/_doc/zuZww4sBKp9jjlQkbozY",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"blogposts",
+								"_doc",
+								"zuZww4sBKp9jjlQkbozY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Doc",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9200/products/_doc/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_doc",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "search",
+			"item": [
+				{
+					"name": "filter",
+					"item": [
+						{
+							"name": "Exact Value",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"query\" : {\n        \"constant_score\" : {\n            \"filter\" : {\n                \"term\": {\n                \"category\": \"декор для дома\"\n                }\n            }\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/products/_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"products",
+										"_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create PIT",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9200/products/_search/point_in_time?keep_alive=10m",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"products",
+										"_search",
+										"point_in_time"
+									],
+									"query": [
+										{
+											"key": "keep_alive",
+											"value": "10m"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Exact Value With Scroll (PIT)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"size\": 3,\n  \"track_total_hits\": false,\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"term\": {\n          \"category\": \"декор для дома\"\n        }\n      }\n    }\n  },\n  \"pit\": {\n    \"id\": \"k-WAQQMIcHJvZHVjdHMWcVQyeHp3WGhUTmVCWkljM2VxQkNjZwEWVFJTU0o1eFpTMi1PWWtNUFdYdEFEZwAAAAAAAAAAFBZPZENYQkpQdVFNV3JtRU5pSjViSnZBCHByb2R1Y3RzFnFUMnh6d1hoVE5lQlpJYzNlcUJDY2cCFmRKc2dVQ2JoUUNhTXAzeDNfS1NiZXcAAAAAAAAAACQWQ1BVNF82em5UQmVtOUcxNVRvZHVGZwhwcm9kdWN0cxZxVDJ4endYaFROZUJaSWMzZXFCQ2NnABZkSnNnVUNiaFFDYU1wM3gzX0tTYmV3AAAAAAAAAAAjFkNQVTRfNnpuVEJlbTlHMTVUb2R1RmcBFnFUMnh6d1hoVE5lQlpJYzNlcUJDY2cAAA==\",\n    \"keep_alive\": \"10m\"\n  },\n  \"sort\": [\n    {\n      \"popularity\": \"desc\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Exact Value PIT Next Page",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"size\": 3,\n  \"track_total_hits\": false,\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"term\": {\n          \"category\": \"декор для дома\"\n        }\n      }\n    }\n  },\n  \"pit\": {\n    \"id\": \"k-WAQQMIcHJvZHVjdHMWcVQyeHp3WGhUTmVCWkljM2VxQkNjZwEWVFJTU0o1eFpTMi1PWWtNUFdYdEFEZwAAAAAAAAAAFBZPZENYQkpQdVFNV3JtRU5pSjViSnZBCHByb2R1Y3RzFnFUMnh6d1hoVE5lQlpJYzNlcUJDY2cCFmRKc2dVQ2JoUUNhTXAzeDNfS1NiZXcAAAAAAAAAACQWQ1BVNF82em5UQmVtOUcxNVRvZHVGZwhwcm9kdWN0cxZxVDJ4endYaFROZUJaSWMzZXFCQ2NnABZkSnNnVUNiaFFDYU1wM3gzX0tTYmV3AAAAAAAAAAAjFkNQVTRfNnpuVEJlbTlHMTVUb2R1RmcBFnFUMnh6d1hoVE5lQlpJYzNlcUJDY2cAAA==\",\n    \"keep_alive\": \"10m\"\n  },\n  \"sort\": [\n    {\n      \"popularity\": \"desc\"\n    }\n  ],\n  \"search_after\": [0.85]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"_search"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "multifield",
+					"item": [
+						{
+							"name": "Bool Query",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"query\": {\n        \"bool\": {\n            \"should\": [\n                { \"match\": { \"title\": \"Brown fox\" }},\n                { \"match\": { \"body\":  \"Brown fox\" }}\n            ]\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/blogposts/_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"blogposts",
+										"_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dis Max Query",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"query\": {\n        \"dis_max\": {\n            \"queries\": [\n                { \"match\": { \"title\": \"Brown fox\" }},\n                { \"match\": { \"body\":  \"Brown fox\" }}\n            ]\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/blogposts/_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"blogposts",
+										"_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dis Max Query With Tie Breaker",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"query\": {\n        \"dis_max\": {\n            \"queries\": [\n                { \"match\": { \"title\": \"Quick pets\" }},\n                { \"match\": { \"body\":  \"Quick pets\" }}\n            ],\n            \"tie_breaker\": 0.3\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9200/blogposts/_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"blogposts",
+										"_search"
+									]
+								},
+								"description": "The `tie_breaker` parameter makes the `dis_max` query behave more like a halfway house between `dis_max` and `bool`. It changes the score calculation as follows:\n\n1. Take the `_score` of the best-matching clause.\n    \n2. Multiply the score of each of the other matching clauses by the `tie_breaker`.\n    \n3. Add them all together and normalize."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Match Prefix",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": {\n    \"match_phrase\": {\n      \"description\": {\n        \"query\": \"декоративная ваза\",\n        // If you provide a slop parameter, the query tolerates reorderings of the search terms. \n        // Slop specifies the number of other words permitted between words in a query phrase\n        \"slop\": 3 \n      }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Match All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": {\n    \"match_all\": {}\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Match",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_source\": [\n        \"name\"\n    ],\n    \"query\": {\n        \"match\": {\n            \"name\": {\n                \"query\": \"набор синих ваз\",\n                \"minimum_should_match\": \"75%\"\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search?filter_path=hits.hits._source",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "multi match",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_source\": [\n        \"name\",\n        \"price\"\n    ],\n    \"track_total_hits\": false,\n    \"query\": {\n        \"bool\": {\n            \"must\": {\n                \"multi_match\": {\n                    \"query\": \"ваза синяя керамическая\",\n                    \"type\": \"most_fields\",\n                    \"fields\": [\n                        \"name^10\",\n                        \"name.std\"\n                    ],\n                    \"max_expansions\": 10,\n                    \"fuzziness\": \"AUTO\",\n                    \"prefix_length\": 1\n                }\n            },\n            \"filter\": {\n                \"term\": {\n                    \"category\": \"декор для дома\"\n                }\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search?filter_path=hits.hits._source",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "multi match PIT",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"size\": 4,\n    \"track_total_hits\": false,\n    \"query\": {\n        \"bool\": {\n            \"must\": {\n                \"multi_match\": {\n                    \"query\": \"ваза синяя керамическая\",\n                    \"type\": \"most_fields\",\n                    \"fields\": [\n                        \"name^10\",\n                        \"name.std\"\n                    ],\n                    \"max_expansions\": 10,\n                    \"fuzziness\": \"AUTO\",\n                    \"prefix_length\": 1\n                }\n            },\n            \"filter\": {\n                \"term\": {\n                    \"category\": \"декор для дома\"\n                }\n            }\n        }\n    },\n    \"pit\": {\n        \"id\": \"k-WAQQMIcHJvZHVjdHMWeHhRVHkya0JUMWFJOTl2cVo5RTBidwIWZEpzZ1VDYmhRQ2FNcDN4M19LU2JldwAAAAAAAAAAdRZaa1oyQy1VdVIwZTNfNzVOcllMVGhnCHByb2R1Y3RzFnh4UVR5MmtCVDFhSTk5dnFaOUUwYncAFmRKc2dVQ2JoUUNhTXAzeDNfS1NiZXcAAAAAAAAAAHYWWmtaMkMtVXVSMGUzXzc1TnJZTFRoZwhwcm9kdWN0cxZ4eFFUeTJrQlQxYUk5OXZxWjlFMGJ3ARZkSnNnVUNiaFFDYU1wM3gzX0tTYmV3AAAAAAAAAAB0FlprWjJDLVV1UjBlM183NU5yWUxUaGcBFnh4UVR5MmtCVDFhSTk5dnFaOUUwYncAAA==\",\n        \"keep_alive\": \"10s\"\n    },\n    \"sort\": [\n        {\n            \"score\": {\n                \"order\": \"desc\"\n            },\n            \"_score\": {\n                \"order\": \"desc\"\n            }\n        }\n    ],\n    \"search_after\": [\n                    1,\n                    16.35125\n                ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bool",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_source\": [\n        \"name\"\n    ],\n    \"query\": {\n        \"bool\": {\n            \"must\": {\n                \"match\": {\n                    \"name\": {\n                        \"query\": \"ваза синяя\"\n                    }\n                }\n            },\n            \"should\": [\n                {\n                    \"match\": {\n                        \"name.std\": {\n                            \"query\": \"ваза синяя\"\n                        }\n                    }\n                }\n            ]\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search?filter_path=hits.hits._source",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Match Phrase",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_source\": [\n        \"name\"\n    ],\n    \"query\": {\n        \"match_phrase\": {\n            \"name\": {\n                \"query\": \"декоративная ваза дешевая\",\n                \"slop\": 5\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search?filter_path=hits.hits._source",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rescore",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_source\": [\n        \"name\"\n    ],\n    \"query\": {\n        \"bool\": {\n            \"must\": {\n                \"multi_match\": {\n                    \"query\": \"ваза керамическая синяя\",\n                    \"type\": \"most_fields\",\n                    \"fields\": [\n                        \"name^10\",\n                        \"name.std\"\n                    ],\n                    \"max_expansions\": 10,\n                    \"fuzziness\": \"AUTO\",\n                    \"prefix_length\": 1\n                }\n            },\n            \"should\": [\n                {\n                    \"match\": {\n                        \"name\": {\n                            \"query\": \"ваза керамическая синяя\",\n                            \"operator\": \"and\",\n                            \"boost\": 3\n                        }\n                    }\n                },\n                                {\n                    \"match\": {\n                        \"name\": {\n                            \"query\": \"ваза керамическая синяя\",\n                            \"minimum_should_match\": \"75%\",\n                            \"boost\": 2\n                        }\n                    }\n                },\n                {\n                    \"match\": {\n                        \"description\": {\n                            \"query\": \"ваза керамическая синяя\",\n                            \"operator\": \"and\",\n                            \"boost\": 1\n                        }\n                    }\n                }\n            ]\n        }\n    },\n    \"rescore\": {\n        \"window_size\": 100,\n        \"query\": {\n            \"rescore_query\": {\n                \"match_phrase\": {\n                    \"title\": {\n                        \"query\": \"ваза керамическая синяя\",\n                        \"slop\": 50\n                    }\n                }\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search?filter_path=hits.hits._source",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "filter_path",
+									"value": "hits.hits._source"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search As You Type",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": {\n    \"multi_match\": {\n      \"query\": \"ваза деко\",\n      \"type\": \"bool_prefix\",\n      \"fields\": [\n          \"name.search-as-you-type._index_prefix\"\n        // \"name.search-as-you-type\",\n        // \"name.search-as-you-type._2gram\",\n        // \"name.search-as-you-type._3gram\"\n      ]\n    }\n  },\n  \"size\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/products/_search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"products",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "plugins",
+			"item": [
+				{
+					"name": "list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/_cat/plugins",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_cat",
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "analysis and validation",
+			"item": [
+				{
+					"name": "analyze",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"analyzer\": \"russian\",\n  \"text\": \"Пример текста\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/_analyze",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_analyze"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "explain query",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"multi_match\": {\n            \"query\": \"ваза керамическая синяя\",\n            \"type\": \"most_fields\",\n            \"fields\": [\n                \"name^10\",\n                \"name.std\",\n                \"description\"\n            ]\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/_validate/query?explain",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_validate",
+								"query"
+							],
+							"query": [
+								{
+									"key": "explain",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cluster",
+			"item": [
+				{
+					"name": "ml",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"huggingface/sentence-transformers/msmarco-distilbert-base-tas-b\",\n  \"version\": \"1.0.1\",\n  \"model_group_id\": \"mx_HHIwBFmP3Rt7tWvDP\",\n  \"model_format\": \"TORCH_SCRIPT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9200/_plugins/_ml/models/_register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_plugins",
+								"_ml",
+								"models",
+								"_register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Cluster Info",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200"
+				}
+			},
+			"response": []
+		}
+	]
+}
