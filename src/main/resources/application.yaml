@@ -5,3 +5,8 @@ opensearch:
   uris: http://localhost:9200
   username: admin
   password: admin
+
+logging:
+  level:
+    org:
+      opensearch: TRACE

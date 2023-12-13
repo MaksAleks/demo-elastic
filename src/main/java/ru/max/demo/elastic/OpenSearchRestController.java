@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.lucene.search.join.ScoreMode;
 import org.opensearch.OpenSearchStatusException;
 import org.opensearch.action.search.CreatePitRequest;
 import org.opensearch.client.ResponseException;
@@ -15,7 +16,9 @@ import org.opensearch.data.client.orhlc.NativeSearchQueryBuilder;
 import org.opensearch.data.client.orhlc.OpenSearchRestTemplate;
 import org.opensearch.index.query.BoolQueryBuilder;
 import org.opensearch.index.query.MultiMatchQueryBuilder;
+import org.opensearch.index.query.NestedQueryBuilder;
 import org.opensearch.index.query.QueryBuilders;
+import org.opensearch.search.aggregations.AggregationBuilders;
 import org.opensearch.search.sort.SortBuilder;
 import org.opensearch.search.sort.SortBuilders;
 import org.opensearch.search.sort.SortOrder;
@@ -42,10 +45,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import ru.max.demo.elastic.mapper.ProductMapper;
+import ru.max.demo.elastic.model.AnalyzeResponse;
 import ru.max.demo.elastic.model.FilterRequest;
 import ru.max.demo.elastic.model.FilterResponse;
 import ru.max.demo.elastic.model.NextPage;
 import ru.max.demo.elastic.model.Product;
+import ru.max.demo.elastic.model.ProductIdx;
 import ru.max.demo.elastic.model.SearchRequest;
 import ru.max.demo.elastic.model.SearchResponse;
 import ru.max.demo.elastic.model.SortBy;
@@ -72,6 +78,9 @@ public class OpenSearchRestController {
     private final OpenSearchRestTemplate client;
     private final ResourceLoader resourceLoader;
     private final ObjectMapper objectMapper;
+    private final ProductMapper mapper;
+    private final NlpService nlpService;
+    private final AttrService attrService;
 
     @PostMapping("/{name}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -89,8 +98,41 @@ public class OpenSearchRestController {
         client.index(indexQuery, IndexCoordinates.of(name));
     }
 
+    private Optional<String> findCategory(String indexName, String searchString) {
+        var boolQuery = QueryBuilders.boolQuery();
+        var nameQuery = QueryBuilders.multiMatchQuery(searchString)
+                .field("name", 1)
+                .field("name.std", 2)
+                .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+                .fuzziness(Fuzziness.AUTO)
+                .prefixLength(1)
+                .maxExpansions(10);
+
+        boolQuery.must(nameQuery);
+
+        var byCategory = AggregationBuilders.terms("byCategory")
+                .field("category")
+                .size(1);
+
+        var query = new NativeSearchQueryBuilder()
+                .withQuery(boolQuery)
+                .withAggregations(byCategory)
+                .build();
+
+        SearchHits<ProductIdx> searchHits = client.search(query, ProductIdx.class, IndexCoordinates.of(indexName));
+        return searchHits.getSearchHits().stream()
+                .findFirst()
+                .map(SearchHit::getContent)
+                .map(ProductIdx::getCategory);
+    }
+
     @PostMapping("/{name}/search")
     public SearchResponse search(@PathVariable("name") String indexName, @RequestBody SearchRequest request) {
+        var analyzeResponse = nlpService.analyzeText(request.getSearchString());
+        var nounOpt = analyzeResponse.getNoun();
+
+        var category = nounOpt.flatMap(noun -> findCategory(indexName, noun));
+
         var nextPage = getNextPage(request.getNextPage());
         String pit = nextPage.map(NextPage::getPit)
                 .orElseGet(() -> openPit(indexName));
@@ -98,19 +140,45 @@ public class OpenSearchRestController {
         // Constructing the bool query
         var boolQueryBuilder = QueryBuilders.boolQuery();
 
-        var nameQuery = QueryBuilders.multiMatchQuery(request.getSearchString())
-                .field("name", 10)
-                .field("name.std")
-                .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
+        var nameStdQuery = QueryBuilders.matchQuery("name.std", request.getSearchString())
+                .boost(2)
+                .fuzziness(Fuzziness.AUTO)
+                .prefixLength(1)
+                .maxExpansions(10);
+
+        var nameQuery = QueryBuilders.matchQuery("name", request.getSearchString())
+                .boost(1)
                 .fuzziness(Fuzziness.AUTO)
                 .prefixLength(1)
                 .maxExpansions(10);
 
         var descriptionQuery = QueryBuilders.matchQuery("description", request.getSearchString());
 
-
-        boolQueryBuilder.must(nameQuery);
+        nounOpt.ifPresent(noun -> {
+            var nameNounQuery = QueryBuilders.matchQuery("name_noun", noun);
+            boolQueryBuilder.must(nameNounQuery);
+        });
+        boolQueryBuilder.should(nameQuery);
+        boolQueryBuilder.should(nameStdQuery);
         boolQueryBuilder.should(descriptionQuery);
+
+        category.ifPresent(cat -> {
+            analyzeResponse.getAdjectives()
+                    .ifPresent(adjList -> {
+                        var attrValues = String.join(" ", adjList);
+                        attrService.getAttrs(cat).forEach(attr -> {
+                            var path = "filter";
+                            var match = QueryBuilders.matchQuery(path + "." + attr.getName(), attrValues)
+                                    .boost(attr.getBoost());
+
+                            var queryBuilder = QueryBuilders.nestedQuery(path, match, ScoreMode.Max)
+                                    .boost(attr.getBoost());
+                            boolQueryBuilder.should(
+                                    queryBuilder
+                            );
+                        });
+                    });
+        });
 
         // Applying filters
         Optional.ofNullable(request.getFilters())
@@ -135,7 +203,7 @@ public class OpenSearchRestController {
         var queryBuilder = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder)
                 .withSorts(sortBuilders) // Modify as needed
-                .withPageable(PageRequest.of(0, 4)) // Modify as needed
+                .withPageable(PageRequest.of(0, 100)) // Modify as needed
                 .withTrackTotalHits(false)
                 .withPointInTime(new Query.PointInTime(pit, Duration.ofMinutes(10))); // Adjust time as needed
 
@@ -143,8 +211,11 @@ public class OpenSearchRestController {
             queryBuilder.withSearchAfter(np.getSortValues());
         });
 
+        var query = queryBuilder.build();
+        System.out.println(query.getQuery());
+
         // Execute the search
-        var searchHits = client.search(queryBuilder.build(), Product.class, IndexCoordinates.of(indexName));
+        var searchHits = client.search(query, Product.class, IndexCoordinates.of(indexName));
         var products = searchHits.getSearchHits().stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
@@ -242,7 +313,17 @@ public class OpenSearchRestController {
                 new TypeReference<>() {
                 });
 
-        List<IndexQuery> queries = products.stream()
+        List<ProductIdx> analyzedProducts = new ArrayList<>();
+
+        for (Product product : products) {
+            var response = nlpService.analyzeText(product.getName());
+            var analyzed = mapper.toProductIdx(product);
+            response.getNoun().ifPresent(analyzed::setName_noun);
+            response.getAdjectives().ifPresent(analyzed::setName_adj);
+            analyzedProducts.add(analyzed);
+        }
+
+        List<IndexQuery> queries = analyzedProducts.stream()
                 .peek(product -> product.setScore(1))
                 .map(product -> new IndexQueryBuilder()
                         .withObject(product)

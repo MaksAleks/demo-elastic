@@ -5,13 +5,12 @@ POST http://localhost:8181/index/products/search
 Content-Type: application/json
 
 {
-  "searchString": "ваза керамическая синяя",
+  "searchString": "ваза декоративная керамическая красная для сухоцветов",
   "filters": [{
     "type": "single",
     "field": "category",
     "value": "декор для дома"
-  }],
-  "nextPage": "eyJwaXQiOiJrLVdBUVFNSWNISnZaSFZqZEhNV2VIaFJWSGt5YTBKVU1XRkpPVGwyY1ZvNVJUQmlkd0lXWkVweloxVkRZbWhSUTJGTmNETjRNMTlMVTJKbGR3QUFBQUFBQUFBQWR4WmFhMW95UXkxVmRWSXdaVE5mTnpWT2NsbE1WR2huQ0hCeWIyUjFZM1J6Rm5oNFVWUjVNbXRDVkRGaFNUazVkbkZhT1VVd1luY0FGbVJLYzJkVlEySm9VVU5oVFhBemVETmZTMU5pWlhjQUFBQUFBQUFBQUhrV1dtdGFNa010VlhWU01HVXpYemMxVG5KWlRGUm9ad2h3Y205a2RXTjBjeFo0ZUZGVWVUSnJRbFF4WVVrNU9YWnhXamxGTUdKM0FSWmtTbk5uVlVOaWFGRkRZVTF3TTNnelgwdFRZbVYzQUFBQUFBQUFBQUI0RmxwcldqSkRMVlYxVWpCbE0xODNOVTV5V1V4VWFHY0JGbmg0VVZSNU1tdENWREZoU1RrNWRuRmFPVVV3WW5jQUFBPT0iLCJzb3J0VmFsdWVzIjpbMSwzNC41NjM2MDJdfQ=="
+  }]
 }
 
 ### filter
@@ -40,3 +39,11 @@ Content-Type: application/json
 
 ### create test data
 POST http://localhost:8181/index/create-test-data
+
+### spacy POS analyze text
+POST http://localhost:8765/analyze
+Content-Type: application/json
+
+{
+  "text": "ваза декоративная красная и синяя подставка"
+}

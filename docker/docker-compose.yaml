@@ -22,14 +22,15 @@ services:
         hard: 65536
     volumes:
       - opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
-      - ./config/synonyms:/usr/share/opensearch/config/synonyms
     ports:
       - 9200:9200 # REST API
       - 9600:9600 # Performance Analyzer
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   opensearch-node2:
-    image: opensearchproject/opensearch:latest # This should be the same image used for opensearch-node1 to avoid issues
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: opensearch-node2
     environment:
       - cluster.name=opensearch-cluster
@@ -48,21 +49,28 @@ services:
         hard: 65536
     volumes:
       - opensearch-data2:/usr/share/opensearch/data
-      - ./config/synonyms:/usr/share/opensearch/config/synonyms
     networks:
       - opensearch-net
-  opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:latest # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
-    container_name: opensearch-dashboards
+#  opensearch-dashboards:
+#    image: opensearchproject/opensearch-dashboards:latest # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
+#    container_name: opensearch-dashboards
+#    ports:
+#      - 5601:5601 # Map host port 5601 to container port 5601
+#    expose:
+#      - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
+#    environment:
+#      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]' # Define the OpenSearch nodes that OpenSearch Dashboards will query
+#      ML_COMMONS_DASHBOARDS_ENABLED: true
+#    networks:
+#      - opensearch-net
+  spacy-service:
+    build:
+      context: ../spacy_service
+      dockerfile: Dockerfile
     ports:
-      - 5601:5601 # Map host port 5601 to container port 5601
+      - 8765:8765
     expose:
-      - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
-    environment:
-      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]' # Define the OpenSearch nodes that OpenSearch Dashboards will query
-      ML_COMMONS_DASHBOARDS_ENABLED: true
-    networks:
-      - opensearch-net
+      - "8765"
 
 volumes:
   opensearch-data1:

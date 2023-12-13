@@ -12,6 +12,7 @@ import java.util.List;
 public class SearchRequest {
     private String searchString;
     private List<Filter> filters;
+    private String category;
     private String sortBy;
     private String nextPage;
 }

@@ -17,6 +17,6 @@ public class SingleValueFilter extends Filter {
 
     @Override
     public void applyTo(BoolQueryBuilder boolQueryBuilder) {
-        boolQueryBuilder.filter(QueryBuilders.termQuery(field, value));
+        boolQueryBuilder.filter(QueryBuilders.termQuery(getFieldPath(), value));
     }
 }

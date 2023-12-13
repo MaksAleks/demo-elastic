@@ -1481,7 +1481,7 @@ c [типом most_fields](https://www.elastic.co/guide/en/elasticsearch/referen
   {
     "_source": {
       "name": "ваза декоративная керамическая черная"
-    }
+    } 
   },
   {
     "_source": {
