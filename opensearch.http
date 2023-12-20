@@ -1,5 +1,32 @@
 POST http://localhost:8181/index/cards
 
+### get categories
+GET http://localhost:8181/categories/v1
+Accept: application/json
+
+### get category
+GET http://localhost:8181/categories/v1/a25f4003-5311-45d0-b4bf-bd67bacbfd89
+Accept: application/json
+
+### categories init
+POST http://localhost:8181/categories/v1/init
+Accept: application/json
+
+### attrs types
+GET http://localhost:8181/categories/v1/attrs/types
+Accept: application/json
+
+### attrs predefined
+GET http://localhost:8181/categories/v1/attrs/predefined
+Accept: application/json
+
+### get category attrs
+GET http://localhost:8181/categories/v1/a25f4003-5311-45d0-b4bf-bd67bacbfd89/attrs
+Accept: application/json
+
+### delete attr
+DELETE http://localhost:8181/categories/v1/a25f4003-5311-45d0-b4bf-bd67bacbfd89/attrs/4d229f9d-5502-477f-b57c-620e87da3a88
+
 ### search
 POST http://localhost:8181/index/products/search
 Content-Type: application/json

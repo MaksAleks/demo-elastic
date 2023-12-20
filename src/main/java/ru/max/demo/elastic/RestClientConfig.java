@@ -29,9 +29,9 @@ public class RestClientConfig extends AbstractOpenSearchConfiguration {
                 .build();
         return RestClients.create(clientConfiguration).rest();
     }
-
-    @Bean
-    public OpenSearchRestTemplate openSearchRestTemplate(RestHighLevelClient client) {
-        return new OpenSearchRestTemplate(client);
-    }
+//
+//    @Bean
+//    public OpenSearchRestTemplate openSearchRestTemplate(RestHighLevelClient client) {
+//        return new OpenSearchRestTemplate(client);
+//    }
 }

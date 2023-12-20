@@ -1,0 +1,502 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: /
+paths:
+  /index/{name}:
+    post:
+      tags:
+      - open-search-rest-controller
+      operationId: createIndex
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Created
+  /index/{name}/product:
+    post:
+      tags:
+      - open-search-rest-controller
+      operationId: createProduct
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        "201":
+          description: Created
+  /index/create-test-data:
+    post:
+      tags:
+      - open-search-rest-controller
+      operationId: createTestData
+      responses:
+        "201":
+          description: Created
+  /categories/v1:
+    get:
+      tags:
+      - categories-controller
+      description: Getting all categories
+      operationId: getCategories
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoriesResponse'
+    post:
+      tags:
+      - categories-controller
+      description: Create category
+      operationId: createCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+  /categories/v1/{id}/attrs:
+    get:
+      tags:
+      - categories-controller
+      description: Get attributes of the category
+      operationId: getAttrs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/ColorAttr'
+                  - $ref: '#/components/schemas/CompoundAttr'
+                  - $ref: '#/components/schemas/DimensionsAttr'
+                  - $ref: '#/components/schemas/MapAttr'
+                  - $ref: '#/components/schemas/OptionsAttr'
+                  - $ref: '#/components/schemas/PlainAttr'
+                  - $ref: '#/components/schemas/RefAttr'
+                  - $ref: '#/components/schemas/SizeAttr'
+    post:
+      tags:
+      - categories-controller
+      description: Add attribute to the category
+      operationId: addAttr
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAttrsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /categories/v1/init:
+    post:
+      tags:
+      - categories-controller
+      operationId: initCategories
+      responses:
+        "200":
+          description: OK
+  /index/image:
+    get:
+      tags:
+      - open-search-rest-controller
+      operationId: getImage
+      parameters:
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /categories/v1/{id}:
+    get:
+      tags:
+      - categories-controller
+      description: Get category by id
+      operationId: getCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+  /categories/v1/attrs/types:
+    get:
+      tags:
+      - categories-controller
+      description: Get all attribute type
+      operationId: attrsTypes
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+  /categories/v1/attrs/predefined:
+    get:
+      tags:
+      - categories-controller
+      description: Get predefined attributes
+      operationId: attrsPredefined
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/AttrGroup'
+components:
+  schemas:
+    Location:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+    Product:
+      type: object
+      properties:
+        category:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+        rating:
+          type: number
+          format: double
+        popularity:
+          type: number
+          format: double
+        location:
+          $ref: '#/components/schemas/Location'
+        score:
+          type: integer
+          format: int32
+        filter:
+          type: object
+          additionalProperties:
+            type: string
+    CreateCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        ruName:
+          type: string
+        parentId:
+          type: string
+    Attr:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+          - colors
+          - units
+          - date
+          - list
+          - options
+          - map
+          - compound
+          - sizes
+          - dimensions
+          - ref
+        name:
+          type: string
+        ruName:
+          type: string
+        required:
+          type: boolean
+      discriminator:
+        propertyName: type
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        parentId:
+          type: string
+        name:
+          type: string
+        ruName:
+          type: string
+        attrs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ColorAttr'
+            - $ref: '#/components/schemas/CompoundAttr'
+            - $ref: '#/components/schemas/DimensionsAttr'
+            - $ref: '#/components/schemas/MapAttr'
+            - $ref: '#/components/schemas/OptionsAttr'
+            - $ref: '#/components/schemas/PlainAttr'
+            - $ref: '#/components/schemas/RefAttr'
+            - $ref: '#/components/schemas/SizeAttr'
+        subCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    CategoryResponse:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        commonAttrs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ColorAttr'
+            - $ref: '#/components/schemas/CompoundAttr'
+            - $ref: '#/components/schemas/DimensionsAttr'
+            - $ref: '#/components/schemas/MapAttr'
+            - $ref: '#/components/schemas/OptionsAttr'
+            - $ref: '#/components/schemas/PlainAttr'
+            - $ref: '#/components/schemas/RefAttr'
+            - $ref: '#/components/schemas/SizeAttr'
+    Color:
+      type: object
+      properties:
+        name:
+          type: string
+        hex:
+          type: string
+        shades:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shade'
+    ColorAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+      - type: object
+        properties:
+          colors:
+            type: array
+            items:
+              $ref: '#/components/schemas/Color'
+    CompoundAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+    DimensionsAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+      - type: object
+        properties:
+          dimensions:
+            type: array
+            items:
+              $ref: '#/components/schemas/UnitsAttr'
+    MapAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+      - type: object
+        properties:
+          key:
+            type: string
+          value:
+            type: string
+    Option:
+      type: object
+      properties:
+        name:
+          type: string
+        ruName:
+          type: string
+    OptionsAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+      - type: object
+        properties:
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/Option'
+    PlainAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+    RefAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+      - type: object
+        properties:
+          key:
+            type: string
+          names:
+            type: array
+            items:
+              type: string
+    Shade:
+      type: object
+      properties:
+        name:
+          type: string
+        hex:
+          type: string
+    SizeAttr:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Attr'
+      - type: object
+        properties:
+          gender:
+            type: string
+          kind:
+            type: string
+          sizes:
+            type: array
+            items:
+              type: object
+    UnitsAttr:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+          - colors
+          - units
+          - date
+          - list
+          - options
+          - map
+          - compound
+          - sizes
+          - dimensions
+          - ref
+        name:
+          type: string
+        ruName:
+          type: string
+        required:
+          type: boolean
+        units:
+          type: array
+          items:
+            type: string
+            enum:
+            - mm
+            - cm
+            - m
+            - mg
+            - g
+            - kg
+            - ml
+            - l
+    CreateAttrsRequest:
+      type: object
+      properties:
+        attrs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ColorAttr'
+            - $ref: '#/components/schemas/CompoundAttr'
+            - $ref: '#/components/schemas/DimensionsAttr'
+            - $ref: '#/components/schemas/MapAttr'
+            - $ref: '#/components/schemas/OptionsAttr'
+            - $ref: '#/components/schemas/PlainAttr'
+            - $ref: '#/components/schemas/RefAttr'
+            - $ref: '#/components/schemas/SizeAttr'
+    CategoriesResponse:
+      type: object
+      properties:
+        commonAttrs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ColorAttr'
+            - $ref: '#/components/schemas/CompoundAttr'
+            - $ref: '#/components/schemas/DimensionsAttr'
+            - $ref: '#/components/schemas/MapAttr'
+            - $ref: '#/components/schemas/OptionsAttr'
+            - $ref: '#/components/schemas/PlainAttr'
+            - $ref: '#/components/schemas/RefAttr'
+            - $ref: '#/components/schemas/SizeAttr'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    AttrGroup:
+      type: object
+      properties:
+        ruName:
+          type: string
+        attrs:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ColorAttr'
+            - $ref: '#/components/schemas/CompoundAttr'
+            - $ref: '#/components/schemas/DimensionsAttr'
+            - $ref: '#/components/schemas/MapAttr'
+            - $ref: '#/components/schemas/OptionsAttr'
+            - $ref: '#/components/schemas/PlainAttr'
+            - $ref: '#/components/schemas/RefAttr'
+            - $ref: '#/components/schemas/SizeAttr'

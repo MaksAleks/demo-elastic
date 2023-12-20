@@ -1,0 +1,1108 @@
+---
+#attr-types:
+#  - text
+#  - date
+#  - sizes
+#  - units
+#  - colors
+#  - options
+#  - list
+#  - map
+#  - ref
+attributes:
+  general:
+    ru-name: общая информация
+    attrs:
+    - type: options
+      name: readiness
+      options:
+        - name: order
+          ru-name: на заказ
+        - name: ready
+          ru-name: готовый товар
+      ru-name: статус
+      required: true
+    - type: date
+      name: creation-date
+      ru-name: дата изготовления
+    - type: list
+      name: materials
+      ru-name: материалы
+      required: true
+    - type: colors
+      name: color
+      ru-name: цвет
+      colors:
+        - hex: '#0000ff'
+          name: синий
+          shades:
+            - hex: '#00ffff'
+              name: голубой
+            - hex: '#40e0d0'
+              name: бирюзовый
+            - hex: '#008080'
+              name: морской волны
+            - hex: '#87ceeb'
+              name: небесный
+            - hex: '#0000cd'
+              name: сапфировый
+            - hex: '#00008b'
+              name: темно-синий
+        - hex: '#ff0000'
+          name: красный
+          shades:
+            - hex: '#ffc0cb'
+              name: розовый
+            - hex: '#ff7f50'
+              name: коралловый
+            - hex: '#e30b5d'
+              name: малиновый
+            - hex: '#fc6c85'
+              name: арбузный
+            - hex: '#800000'
+              name: бордовый
+            - hex: '#ff2400'
+              name: шкарлатный
+        - hex: '#008000'
+          name: зеленый
+          shades:
+            - hex: '#00ff00'
+              name: лаймовый
+            - hex: '#808000'
+              name: оливковый
+            - hex: '#98ff98'
+              name: мятный
+            - hex: '#bdb76b'
+              name: хаки
+            - hex: '#d0f0c0'
+              name: зеленый чай
+            - hex: '#50c878'
+              name: изумрудный
+        - hex: '#ffff00'
+          name: желтый
+          shades:
+            - hex: '#ffd700'
+              name: золотой
+            - hex: '#fff44f'
+              name: лимонный
+            - hex: '#f0fff0'
+              name: медовый
+            - hex: '#ffffe0'
+              name: бледно-желтый
+            - hex: '#ffdb58'
+              name: горчичный
+            - hex: '#f5deb3'
+              name: соломенный
+        - hex: '#800080'
+          name: фиолетовый
+          shades:
+            - hex: '#e6e6fa'
+              name: лавандовый
+            - hex: '#800080'
+              name: пурпурный
+            - hex: '#8e4585'
+              name: сливовый
+            - hex: '#9966cc'
+              name: аметистовый
+            - hex: '#da70d6'
+              name: орхидеевый
+            - hex: '#ff00ff'
+              name: магентовый
+        - hex: '#ffa500'
+          name: оранжевый
+          shades:
+            - hex: '#ff8243'
+              name: мандариновый
+            - hex: '#fbceb1'
+              name: абрикосовый
+            - hex: '#ff7f50'
+              name: коралловый
+            - hex: '#e2725b'
+              name: терракотовый
+            - hex: '#ffe5b4'
+              name: персиковый
+            - hex: '#ff4500'
+              name: огненно-оранжевый
+  sizes:
+    ru-name: размеры
+    attrs:
+      - type: sizes
+        kind: clothes
+        gender: female
+        name: clothes-sizes-female
+        ru-name: размеры одежды
+        sizes:
+          - rus: 36
+            uni: 3XS
+            breast:
+              - ru-name: обхват груди
+                value: 70-75
+            waist:
+              - ru-name: обхват талии
+                value: 53-57
+            hips:
+              - ru-name: обхват бедер
+                value: 81-85
+          - rus: 38
+            uni: XXS
+            breast:
+              - ru-name: обхват груди
+                value: 76-80
+            waist:
+              - ru-name: обхват талии
+                value: 58-62
+            hips:
+              - ru-name: обхват бедер
+                value: 86-90
+          - rus: 40
+            uni: XS
+            breast:
+              - ru-name: обхват груди
+                value: 81-85
+            waist:
+              - ru-name: обхват талии
+                value: 63-67
+            hips:
+              - ru-name: обхват бедер
+                value: 91-95
+          - rus: 42
+            uni: S
+            breast:
+              - ru-name: обхват груди
+                value: 86-90
+            waist:
+              - ru-name: обхват талии
+                value: 68-72
+            hips:
+              - ru-name: обхват бедер
+                value: 96-100
+          - rus: 44
+            uni: M
+            breast:
+              - ru-name: обхват груди
+                value: 91-95
+            waist:
+              - ru-name: обхват талии
+                value: 73-77
+            hips:
+              - ru-name: обхват бедер
+                value: 101-105
+          - rus: 46
+            uni: L
+            breast:
+              - ru-name: обхват груди
+                value: 96-100
+            waist:
+              - ru-name: обхват талии
+                value: 78-82
+            hips:
+              - ru-name: обхват бедер
+                value: 106-110
+          - rus: 48
+            uni: XL
+            breast:
+              - ru-name: обхват груди
+                value: 101-105
+            waist:
+              - ru-name: обхват талии
+                value: 83-87
+            hips:
+              - ru-name: обхват бедер
+                value: 111-115
+          - rus: 48
+            uni: XL
+            breast:
+              - ru-name: обхват груди
+                value: 101-105
+            waist:
+              - ru-name: обхват талии
+                value: 83-87
+            hips:
+              - ru-name: обхват бедер
+                value: 111-115
+          - rus: 50
+            uni: XXL
+            breast:
+              - ru-name: обхват груди
+                value: 106-110
+            waist:
+              - ru-name: обхват талии
+                value: 88-92
+            hips:
+              - ru-name: обхват бедер
+                value: 116-120
+          - rus: 52
+            uni: 3XL
+            breast:
+              - ru-name: обхват груди
+                value: 111-115
+            waist:
+              - ru-name: обхват талии
+                value: 93-97
+            hips:
+              - ru-name: обхват бедер
+                value: 121-125
+          - rus: 54
+            uni: 4XL
+            breast:
+              - ru-name: обхват груди
+                value: 116-120
+            waist:
+              - ru-name: обхват талии
+                value: 98-102
+            hips:
+              - ru-name: обхват бедер
+                value: 126-130
+      - type: sizes
+        kind: clothes
+        gender: male
+        name: clothes-sizes-male
+        ru-name: размеры одежды
+        sizes:
+          - rus: 44
+            uni: XS
+            breast:
+              - ru-name: обхват груди
+                value: 88-91
+            belt:
+              - ru-name: обхват пояса
+                value: 78-81
+          - rus: 46
+            uni: S
+            breast:
+              - ru-name: обхват груди
+                value: 92-95
+            belt:
+              - ru-name: обхват пояса
+                value: 82-84
+          - rus: 48
+            uni: M
+            breast:
+              - ru-name: обхват груди
+                value: 96-99
+            belt:
+              - ru-name: обхват пояса
+                value: 85-87
+          - rus: 50
+            uni: L
+            breast:
+              - ru-name: обхват груди
+                value: 100-103
+            belt:
+              - ru-name: обхват пояса
+                value: 88-90
+          - rus: 52
+            uni: XL
+            breast:
+              - ru-name: обхват груди
+                value: 104-107
+            belt:
+              - ru-name: обхват пояса
+                value: 91-93
+          - rus: 54
+            uni: XXL
+            breast:
+              - ru-name: обхват груди
+                value: 108-111
+            belt:
+              - ru-name: обхват пояса
+                value: 94-97
+          - rus: 56
+            uni: 3XL
+            breast:
+              - ru-name: обхват груди
+                value: 112-115
+            belt:
+              - ru-name: обхват пояса
+                value: 98-101
+          - rus: 58
+            uni: 4XL
+            breast:
+              - ru-name: обхват груди
+                value: 116-119
+            belt:
+              - ru-name: обхват пояса
+                value: 102-105
+          - rus: 60
+            uni: 5XL
+            breast:
+              - ru-name: обхват груди
+                value: 120-125
+            belt:
+              - ru-name: обхват пояса
+                value: 106-109
+      - type: sizes
+        kind: boots
+        name: boots-size-male
+        ru-name: размер обуви
+        gender: male
+        sizes:
+          - rus: 39
+            len: 25.0
+          - rus: 39.5
+            len: 25.5
+          - rus: 40
+            len: 26.0
+          - rus: 40.5
+            len: 26.5
+          - rus: 41
+            len: 27.0
+          - rus: 41.5
+            len: 27.5
+          - rus: 42
+            len: 28.0
+          - rus: 42.5
+            len: 28.5
+          - rus: 43
+            len: 29.0
+          - rus: 43.5
+            len: 29.5
+          - rus: 44
+            len: 30.0
+          - rus: 45
+            len: 31.0
+          - rus: 46
+            len: 32.0
+      - type: sizes
+        kind: boots
+        name: boots-size-female
+        ru-name: размер обуви
+        gender: female
+        sizes:
+          - rus: 34
+            len: 22.5
+          - rus: 34.5
+            len: 22.8
+          - rus: 35
+            len: 23.0
+          - rus: 35.5
+            len: 23.3
+          - rus: 36
+            len: 23.5
+          - rus: 36.5
+            len: 23.8
+          - rus: 37
+            len: 24.0
+          - rus: 37.5
+            len: 24.5
+          - rus: 38
+            len: 25.0
+          - rus: 38.5
+            len: 25.5
+          - rus: 39
+            len: 26.0
+          - rus: 39.5
+            len: 26.5
+          - rus: 40
+            len: 27.0
+          - rus: 40.5
+            len: 27.3
+          - rus: 41
+            len: 27.5
+          - rus: 41.5
+            len: 28.0
+  dimensions:
+    ru-name: габариты
+    attrs:
+      - type: dimensions
+        name: dimensions
+        ru-name: габариты
+        dimensions:
+          - type: units
+            name: height
+            ru-name: высота
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: min-height
+            ru-name: высота мин.
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: max-height
+            ru-name: высота макс.
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: width
+            ru-name: ширина
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: min-width
+            ru-name: ширина мин.
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: max-width
+            ru-name: ширина макс.
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: len
+            ru-name: длина
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: min-len
+            ru-name: длина мин.
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: max-len
+            ru-name: длина макс.
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: weight
+            ru-name: вес
+            units:
+              - mg
+              - g
+              - kg
+          - type: units
+            name: diameter
+            ru-name: диаметр
+            units:
+              - mm
+              - cm
+              - m
+          - type: units
+            name: volume
+            ru-name: объем
+            units:
+              - ml
+              - l
+      - type: dimensions
+        name: packaged-dimensions
+        ru-name: габариты в упаковке
+        dimensions:
+          - type: units
+            name: height
+            ru-name: высота
+            units:
+              - cm
+          - type: units
+            name: width
+            ru-name: ширина
+            units:
+              - cm
+          - type: units
+            name: length
+            ru-name: длина
+            units:
+              - cm
+          - type: units
+            name: weight
+            ru-name: вес
+            units:
+              - kg
+  additional:
+    ru-name: дополнительная информация
+    attrs:
+      - type: map
+        key: text
+        value: text
+        name: additional-info
+        ru-name: дополнительная информация
+        required: false
+common-attrs:
+  - type: ref
+    key: general
+  - type: ref
+    key: dimensions
+    names:
+      - packaged-dimensions
+  - type: ref
+    key: additional
+categories:
+  - name: home
+    ru-name: для дома
+    sub-categories:
+      - name: bath
+        ru-name: ванная комната
+        sub-categories:
+          - name: hangers-and-hooks
+            ru-name: вешалки и крючки
+          - name: toilet-paper-holders
+            ru-name: держатели для туалетной бумаги
+          - name: soap-dishes-and-dispensers
+            ru-name: мыльницы и дозаторы
+          - name:
+            ru-name:
+          - name: bath-mats
+            ru-name: коврики для ванной
+            attrs:
+              - type: ref
+                key: dimensions
+                names:
+                  - len
+                  - width
+          - name: bath-shelves
+            ru-name: полки для ванной
+            attrs:
+              - type: ref
+                key: dimensions
+                names:
+                  - len
+                  - width
+                  - height
+          - name: bathroom-curtains
+            ru-name: занавески
+            attrs:
+              - type: ref
+                key: dimensions
+                names:
+                  - height
+                  - width
+          - name: cornices
+            ru-name: карнизы
+            sub-categories:
+              - name: corner
+                ru-name: угловой
+                attrs:
+                  - type: ref
+                    key: dimensions
+                    names:
+                      - len
+                      - width
+              - name: straight
+                ru-name: прямой
+                attrs:
+                  - type: ref
+                    key: dimensions
+                    names:
+                      - min-len
+                      - max-len
+          - name: other
+            ru-name: другое
+      - name: kitchen-and-dining-room
+        ru-name: кухня и столовая
+        sub-categories:
+          - name:
+            ru-name: посуда
+            sub-categories:
+              - name:
+                ru-name: столовые приборы
+              - name:
+                ru-name: столовая посуда
+              - name:
+                ru-name: посуда для приготовления
+              - name:
+                ru-name: аксесуары для сервировки
+          - name:
+            ru-name: текстиль
+          - name:
+            ru-name: хранение
+            sub-categories:
+              - name:
+                ru-name: хлебницы
+              - name:
+                ru-name: баночки для специй
+              - name:
+                ru-name: корзинки и ящики
+              - name:
+                ru-name: вешалки
+              - name:
+                ru-name: подставки
+          - name:
+            ru-name: вешалки и крючки
+          - name:
+            ru-name: кухонная утварь
+          - name:
+            ru-name: сервировка
+          - name:
+            ru-name: полотенца, прихватки
+            attrs:
+              - type: ref
+                key: dimensions
+          - name:
+            ru-name: другое
+            attrs:
+              - type: ref
+                key: dimensions
+      - name: childrens-room
+        ru-name: детская
+      - name: interior
+        ru-name: предметы интерьера
+      - name: lighting
+        ru-name: освещение
+      - name: perfumery
+        ru-name: парфюмерия для дома
+      - name: storing
+        ru-name: предметы хранения
+  - name: clothes
+    ru-name: одежда
+    sub-categories:
+      - name: man
+        ru-name: мужская
+        attrs:
+          - type: ref
+            key: sizes
+            names:
+              - clothes-sizes-male
+      - name: woman
+        ru-name: женская
+        attrs:
+          - type: ref
+            key: sizes
+            names:
+              - clothes-sizes-female
+      - name: boys
+        ru-name: для мальчиков
+      - name: girls
+        ru-name: для девочек
+      - name: babies
+        ru-name: для малышей
+      - name: workwear
+        ru-name: спецодежда
+        sub-categories:
+          - name: man
+            ru-name: мужская
+            attrs:
+              - type: ref
+                key: sizes
+                names:
+                  - clothes-sizes-male
+          - name: woman
+            ru-name: женская
+            attrs:
+              - type: ref
+                key: sizes
+                names:
+                  - clothes-sizes-female
+      - name: gardenwear
+        ru-name: для дачи и огорода
+        sub-categories:
+          - name: man
+            ru-name: мужская
+            attrs:
+              - type: ref
+                key: sizes
+                names:
+                  - clothes-sizes-male
+          - name: woman
+            ru-name: женская
+            attrs:
+              - type: ref
+                key: sizes
+                names:
+                  - clothes-sizes-female
+      - name: weddingwear
+        ru-name: на свадьбу
+        sub-categories:
+          - name: man
+            ru-name: мужская
+            attrs:
+              - type: ref
+                key: sizes
+                names:
+                  - clothes-sizes-male
+          - name: woman
+            ru-name: женская
+            attrs:
+              - type: ref
+                key: sizes
+                names:
+                  - clothes-sizes-female
+  - name: carnival-costumes
+    ru-name: карнавальные костюмы
+    sub-categories:
+      - name: man
+        ru-name: мужские
+        attrs:
+          - type: ref
+            key: sizes
+            names:
+              - clothes-sizes-male
+      - name: woman
+        ru-name: женские
+        attrs:
+          - type: ref
+            key: sizes
+            names:
+              - clothes-sizes-female
+      - name: boys
+        ru-name: для мальчиков
+      - name: girls
+        ru-name: для девочек
+      - name: babies
+        ru-name: для малышей
+  - name: shoes
+    ru-name: обувь
+    sub-categories:
+      - name: man
+        ru-name: мужская
+      - name: woman
+        ru-name: женская
+      - name: boys
+        ru-name: для мальчиков
+      - name: girls
+        ru-name: для девочек
+      - name: babies
+        ru-name: для малышей
+      - name: orthopedic
+        ru-name: ортопедическая
+      - name: insoles
+        ru-name: стельки
+  - name: for-children
+    ru-name: товары для детей
+    sub-categories:
+      - name: girls
+        ru-name: для девочек
+        sub-categories:
+          - name: shoes
+            ru-name: обувь
+          - name: clothes
+            ru-name: одежда
+          - name: carnival-costumes
+            ru-name: карнавальные костюмы
+          - name: for-swimming
+            ru-name: купальная
+          - name: for-home
+            ru-name: для дома
+          - name: other
+            ru-name: другое
+      - name: boys
+        ru-name: для мальчиков
+        sub-categories:
+          - name: shoes
+            ru-name: обувь
+          - name: clothes
+            ru-name: одежда
+          - name: carnival-costumes
+            ru-name: карнавальные костюмы
+          - name: for-swimming
+            ru-name: купальная
+          - name: for-home
+            ru-name: для дома
+          - name: other
+            ru-name: другое
+      - name: babies
+        ru-name: для малышей
+        sub-categories:
+          - name: shoes
+            ru-name: обувь
+          - name: clothes
+            ru-name: одежда
+          - name: carnival-costumes
+            ru-name: карнавальные костюмы
+          - name: for-swimming
+            ru-name: купальная
+          - name: for-home
+            ru-name: для дома
+          - name: other
+            ru-name: другое
+      - name: accessories
+        ru-name: аксессуары
+      - name: care
+        ru-name: уход и забота
+      - name: toys-and-games
+        ru-name: игры и игрушки
+      - name: hobby-and-art
+        ru-name: творчество и увлечения
+      - name: presents
+        ru-name: подарки для детей
+  - name: jewelry
+    ru-name: ювелирные изделия
+    sub-categories:
+      - name: gold
+        ru-name: золото
+        sub-categories:
+          - name: ring
+            ru-name: кольца
+          - name: earrings
+            ru-name: серьги
+          - name: neck
+            ru-name: украшения на шею
+          - name: brooches
+            ru-name: броши
+          - name: hands
+            ru-name: украшения на руки
+          - name: sets
+            ru-name: комплекты
+      - name: silver
+        ru-name: серебро
+        sub-categories:
+          - name: ring
+            ru-name: кольца
+          - name: earrings
+            ru-name: серьги
+          - name: neck
+            ru-name: украшения на шею
+          - name: brooches
+            ru-name: броши
+          - name: hands
+            ru-name: украшения на руки
+          - name: sets
+            ru-name: комплекты
+      - name: other-metals
+        ru-name: другие драг. металлы
+        sub-categories:
+          - name: ring
+            ru-name: кольца
+          - name: earrings
+            ru-name: серьги
+          - name: neck
+            ru-name: украшения на шею
+          - name: brooches
+            ru-name: броши
+          - name: hands
+            ru-name: украшения на руки
+          - name: sets
+            ru-name: комплекты
+  - name: trinketry
+    ru-name: украшения
+    sub-categories:
+      - name: ring
+        ru-name: кольца
+      - name: earrings
+        ru-name: серьги
+      - name: neck
+        ru-name: украшения на шею
+      - name: brooches
+        ru-name: броши
+      - name: hands
+        ru-name: украшения на руки
+      - name: sets
+        ru-name: комплекты
+  - name: accessories
+    ru-name: аксессуары
+    sub-categories:
+      - name: clothes-accessories
+        ru-name: для одежды
+      - name: hair-accessories
+        ru-name: для волос
+      - name: hats
+        ru-name: головные уборы
+      - name: belts
+        ru-name: пояса и ремни
+      - name: purses
+        ru-name: сумки и сумочки
+      - name: wallets
+        ru-name: кошельки
+      - name: hankies
+        ru-name: платочки
+      - name: scarves
+        ru-name: шарфы и платки
+      - name: umbrellas
+        ru-name: зонты
+      - name: eyeglasses
+        ru-name: очки и футляры
+      - name: clocks
+        ru-name: часы и ремешки
+      - name: braces
+        ru-name: браслеты
+      - name: other
+        ru-name: другое
+  - name: toys-and-games
+    ru-name: игры и игрушки
+    sub-categories:
+      - name: babies
+        ru-name: для малышей
+      - name: educational-toys
+        ru-name: развивающие
+      - name: boys
+        ru-name: для мальчиков
+      - name: girls
+        ru-name: для девочек
+      - name: stuffed-toys
+        ru-name: мягкие игрушки
+      - name: board-games
+        ru-name: настольные игры
+      - name: role-playing
+        ru-name: сюжетно ролевые
+      - name: constructors
+        ru-name: конструкторы
+  - name: animals
+    ru-name: для животных
+    sub-categories:
+      - name: clothes
+        ru-name: одежда
+      - name: shoes
+        ru-name: обувь
+      - name: ammunition
+        ru-name: амуниция
+      - name: care
+        ru-name: уход
+      - name: transportation
+        ru-name: транспортировка
+      - name: toys
+        ru-name: игрушки
+      - name: cats
+        ru-name: для кошек
+        sub-categories:
+          - name: clothes
+            ru-name: одежда
+          - name: shoes
+            ru-name: обувь
+          - name: ammunition
+            ru-name: амуниция
+          - name: care
+            ru-name: уход
+          - name: transportation
+            ru-name: транспортировка
+          - name: toys
+            ru-name: игрушки
+      - name: dogs
+        ru-name: для собак
+        sub-categories:
+          - name: clothes
+            ru-name: одежда
+          - name: shoes
+            ru-name: обувь
+          - name: ammunition
+            ru-name: амуниция
+          - name: care
+            ru-name: уход
+          - name: transportation
+            ru-name: транспортировка
+          - name: toys
+            ru-name: игрушки
+      - name: birds
+        ru-name: для птиц
+        sub-categories:
+          - name: clothes
+            ru-name: одежда
+          - name: shoes
+            ru-name: обувь
+          - name: ammunition
+            ru-name: амуниция
+          - name: care
+            ru-name: уход
+          - name: transportation
+            ru-name: транспортировка
+          - name: toys
+            ru-name: игрушки
+      - name: rodents
+        ru-name: для грызунов
+        sub-categories:
+          - name: clothes
+            ru-name: одежда
+          - name: shoes
+            ru-name: обувь
+          - name: ammunition
+            ru-name: амуниция
+          - name: care
+            ru-name: уход
+          - name: transportation
+            ru-name: транспортировка
+          - name: toys
+            ru-name: игрушки
+      - name: horses
+        ru-name: для лошадей
+      - name: fish
+        ru-name: для рыбок
+  - name: furniture
+    ru-name: мебель
+    sub-categories:
+      - name: frameworkless
+        ru-name: бескаркассная мебель
+      - name: sofas
+        ru-name: диваны
+        sub-categories:
+          - name: corner-sofas
+            ru-name: угловые диваны
+      - name: arm-chairs
+        ru-name: кресла
+      - name: beds
+        ru-name: кровати
+      - name: wardrobes
+        ru-name: шкафы
+      - name: racks
+        ru-name: полки, стеллажи и стенки
+      - name: cabinets
+        ru-name: тумбы
+      - name: office
+        ru-name: офисная мебель
+      - name: furniture-fittings
+        ru-name: мебельная фурнитура
+  - name: garden-and-country-house
+    ru-name: сад и дача
+    sub-categories:
+      - name: supports
+        ru-name: горшки, опоры и все для рассады
+      - name: garden tools
+        ru-name: садовые инструменты
+      - name: garden furniture
+        ru-name: садовая мебель
+        sub-categories:
+          - name: chairs
+            ru-name: стулья
+          - name: chaise-lounge
+            ru-name: лежаки и шезлонги
+          - name: hammocks
+            ru-name: гамаки
+          - name: benches
+            ru-name: скамейки
+          - name: rest
+            ru-name: для отдыха и веселья
+          - name: other
+            ru-name: другое
+      - name: decor
+        ru-name: декор
+      - name: bathhouse
+        ru-name: для бани и сауны
+      - name: other
+        ru-name: другое
+  - name: camping
+    ru-name: пикник и кэмпинг
+  - name: repair-products
+    ru-name: товары для ремонта
+    sub-categories:
+      - name: doors-windows-fittings
+        ru-name: двери, окна, фурнитура
+      - name: tools
+        ru-name: рабочие инструменты
+      - name: decor
+        ru-name: декоративные элементы
+      - name: fasteners
+        ru-name: крепежные детали
+  - name: beauty-and-care
+    ru-name: красота и уход
+    sub-categories:
+      - name: soap
+        ru-name: мыла
+      - name: perfume
+        ru-name: духи и парфюм
+      - name: face
+        ru-name: уход за лицом
+      - name: hair
+        ru-name: уход за волосами
+      - name: body
+        ru-name: уход за телом
+      - name: hands
+        ru-name: уход за руками
+      - name: foots
+        ru-name: уход за стопами
+      - name: bath
+        ru-name: для ванной
+      - name: bathhouse
+        ru-name: для бани и сауны
+      - name: mirrors
+        ru-name: зеркальца
+      - name: accessories
+        ru-name: аксессуары
+      - name: others
+        ru-name: другое
+
+
+
