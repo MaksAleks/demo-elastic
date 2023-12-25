@@ -9,7 +9,9 @@ import ru.max.demo.elastic.model.cateogries.attrs.Attr;
 import ru.max.demo.elastic.model.cateogries.attrs.AttrGroup;
 import ru.max.demo.elastic.repository.CategoriesRepository;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +45,7 @@ public class CategoriesService {
 
     public void saveCategoriesTree(List<Category> categories) {
         categories.forEach(category -> {
-            var bulk = createEntities(category, "root");
+            var bulk = createEntities(category);
             categoriesRepository.saveAll(bulk);
         });
     }
@@ -137,7 +139,9 @@ public class CategoriesService {
             enrichSubcategoriesWithoutAttrs(category, categoriesByParentId::get);
             result.add(category);
         }
-        return result;
+        return result.stream()
+                .sorted(Comparator.comparing(Category::getDateCreated))
+                .toList();
     }
 
     private void enrichSubcategories(Category category, Function<String, List<CategoryEntity>> getSubCategories) {
@@ -159,6 +163,7 @@ public class CategoriesService {
                     .toList();
             subCategories.forEach(subCat -> enrichSubcategoriesWithoutAttrs(subCat, getSubCategories));
             category.getSubCategories().addAll(subCategories);
+            category.getSubCategories().sort(Comparator.comparing(Category::getDateCreated));
         }
     }
 
@@ -168,7 +173,9 @@ public class CategoriesService {
                 .parentId(entity.getParentId())
                 .name(entity.getName())
                 .ruName(entity.getRuName())
+                .path(entity.getPath())
                 .attrs(entity.getAttrs())
+                .dateCreated(entity.getDateCreated())
                 .build();
     }
 
@@ -178,39 +185,49 @@ public class CategoriesService {
                 .parentId(entity.getParentId())
                 .name(entity.getName())
                 .ruName(entity.getRuName())
+                .path(entity.getPath())
+                .dateCreated(entity.getDateCreated())
                 .build();
     }
 
-    private List<CategoryEntity> createEntities(Category category, String parentId) {
+    private List<CategoryEntity> createEntities(Category category) {
         var result = new ArrayList<CategoryEntity>();
-        createEntities(category, parentId, result);
+        createEntities(category, getRoot(), result);
         return result;
     }
 
-    private void createEntities(Category category, String parentId, List<CategoryEntity> entities) {
-        var parent = CategoryEntity.builder()
-                .id(UUID.randomUUID().toString())
-                .parentId(parentId)
+    private void createEntities(Category category, CategoryEntity parentEntity, List<CategoryEntity> entities) {
+        var id = UUID.randomUUID().toString();
+        var path = parentEntity.getId().equals("root") ? id : parentEntity.getPath() + "." + id;
+        var current = CategoryEntity.builder()
+                .id(id)
+                .parentId(parentEntity.getId())
                 .name(category.getName())
                 .ruName(category.getRuName())
                 .attrs(category.getAttrs())
+                .dateCreated(ZonedDateTime.now())
+                .path(path)
                 .build();
-        entities.add(parent);
+        entities.add(current);
         if (category.getSubCategories() != null) {
             for (var subCategory : category.getSubCategories()) {
-                createEntities(subCategory, parent.getId(), entities);
+                createEntities(subCategory, current, entities);
             }
         }
     }
 
     private CategoryEntity createEntity(Category category) {
         var parent = getCategory(category.getParentId());
+        var id = UUID.randomUUID().toString();
+        var path = parent.getId().equals("root") ? id : parent.getPath() + "." + id;
         return CategoryEntity.builder()
-                .id(UUID.randomUUID().toString())
+                .id(id)
                 .parentId(parent.getId())
                 .name(category.getName())
                 .ruName(category.getRuName())
+                .dateCreated(ZonedDateTime.now())
                 .attrs(category.getAttrs())
+                .path(path)
                 .build();
     }
 }
