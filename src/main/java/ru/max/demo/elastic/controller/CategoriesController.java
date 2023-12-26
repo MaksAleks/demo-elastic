@@ -12,8 +12,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,7 +96,6 @@ public class CategoriesController {
     @GetMapping("/{id}")
     @Operation(description = "Get category by id")
     public CategoryResponse getCategory(@PathVariable("id") String id) {
-        var root = categoriesService.getRoot();
         return categoriesService.findCategory(id)
                 .map(this::toCategoryResponse)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
@@ -119,6 +120,15 @@ public class CategoriesController {
         categoriesService.deleteCategory(categoryId);
         return Response.builder()
                 .status(OK)
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    @Operation(description = "Update category")
+    public CategoryResponse updateCategory(@PathVariable("id") String categoryId,
+                                           @RequestBody CreateCategoryRequest request) {
+        return CategoryResponse.builder()
+                .category(categoriesService.updateCategory(categoryId, request))
                 .build();
     }
 

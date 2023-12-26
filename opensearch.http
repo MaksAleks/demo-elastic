@@ -21,7 +21,7 @@ GET http://localhost:8181/categories/v1/attrs/predefined
 Accept: application/json
 
 ### get category attrs
-GET http://localhost:8181/categories/v1/a25f4003-5311-45d0-b4bf-bd67bacbfd89/attrs
+GET http://localhost:8181/categories/v1/8aa2c9ae-523e-44bf-8978-dc6ad63eb090/attrs
 Accept: application/json
 
 ### delete attr

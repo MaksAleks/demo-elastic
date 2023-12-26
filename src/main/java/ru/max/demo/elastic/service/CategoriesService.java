@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.max.demo.elastic.entity.CategoryEntity;
+import ru.max.demo.elastic.model.CategoryResponse;
+import ru.max.demo.elastic.model.CreateCategoryRequest;
 import ru.max.demo.elastic.model.cateogries.Category;
 import ru.max.demo.elastic.model.cateogries.attrs.Attr;
 import ru.max.demo.elastic.model.cateogries.attrs.AttrGroup;
@@ -55,6 +57,15 @@ public class CategoriesService {
         return toCategory(entity);
     }
 
+    public Category updateCategory(String categoryId, CreateCategoryRequest request) {
+        return findCategoryEntity(categoryId)
+                .map(entity -> entity.setName(request.getName()))
+                .map(entity -> entity.setRuName(request.getRuName()))
+                .map(categoriesRepository::save)
+                .map(this::toCategoryWithoutAttrs)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
+    }
+
     public void deleteCategory(String categoryId) {
         categoriesRepository.deleteById(categoryId);
         categoriesRepository.findAllByParentId(categoryId).forEach(cat -> {
@@ -63,8 +74,7 @@ public class CategoriesService {
     }
 
     public void createAttrs(String categoryId, List<Attr> attrs) {
-        var category = categoriesRepository.findById(categoryId)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
+        var category = getCategoryEntity(categoryId);
 
         var attrsByRuName = category.getAttrs().stream()
                 .collect(toMap(Attr::getRuName, Function.identity()));
@@ -106,10 +116,15 @@ public class CategoriesService {
                 .orElseThrow(() -> new ResponseStatusException(INTERNAL_SERVER_ERROR, "Root category not found"));
     }
 
-    private CategoryEntity getCategory(String categoryId) {
+    private CategoryEntity getCategoryEntity(String categoryId) {
         return categoriesRepository.findById(categoryId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
     }
+
+    private Optional<CategoryEntity> findCategoryEntity(String categoryId) {
+        return categoriesRepository.findById(categoryId);
+    }
+
 
     public List<Category> findTopLevelCategories() {
         return findSubCategoriesOf("root");
@@ -168,6 +183,7 @@ public class CategoriesService {
     }
 
     private Category toCategory(CategoryEntity entity) {
+        entity.getAttrs().sort(Comparator.comparing(Attr::getDateCreated));
         return Category.builder()
                 .id(entity.getId())
                 .parentId(entity.getParentId())
@@ -199,6 +215,7 @@ public class CategoriesService {
     private void createEntities(Category category, CategoryEntity parentEntity, List<CategoryEntity> entities) {
         var id = UUID.randomUUID().toString();
         var path = parentEntity.getId().equals("root") ? id : parentEntity.getPath() + "." + id;
+        category.getAttrs().forEach(attr -> attr.setDateCreated(ZonedDateTime.now()));
         var current = CategoryEntity.builder()
                 .id(id)
                 .parentId(parentEntity.getId())
@@ -217,9 +234,10 @@ public class CategoriesService {
     }
 
     private CategoryEntity createEntity(Category category) {
-        var parent = getCategory(category.getParentId());
+        var parent = getCategoryEntity(category.getParentId());
         var id = UUID.randomUUID().toString();
         var path = parent.getId().equals("root") ? id : parent.getPath() + "." + id;
+        category.getAttrs().forEach(attr -> attr.setDateCreated(ZonedDateTime.now()));
         return CategoryEntity.builder()
                 .id(id)
                 .parentId(parent.getId())
