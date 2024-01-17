@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.max.demo.elastic.entity.CategoryEntity;
 import ru.max.demo.elastic.model.CategoryResponse;
 import ru.max.demo.elastic.model.CreateCategoryRequest;
+import ru.max.demo.elastic.model.UpdateCategoryRequest;
 import ru.max.demo.elastic.model.cateogries.Category;
 import ru.max.demo.elastic.model.cateogries.attrs.Attr;
 import ru.max.demo.elastic.model.cateogries.attrs.AttrGroup;
@@ -57,7 +58,7 @@ public class CategoriesService {
         return toCategory(entity);
     }
 
-    public Category updateCategory(String categoryId, CreateCategoryRequest request) {
+    public Category updateCategory(String categoryId, UpdateCategoryRequest request) {
         return findCategoryEntity(categoryId)
                 .map(entity -> entity.setName(request.getName()))
                 .map(entity -> entity.setRuName(request.getRuName()))

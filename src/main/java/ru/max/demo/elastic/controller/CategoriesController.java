@@ -25,6 +25,7 @@ import ru.max.demo.elastic.model.CategoriesResponse;
 import ru.max.demo.elastic.model.CategoryResponse;
 import ru.max.demo.elastic.model.CreateAttrsRequest;
 import ru.max.demo.elastic.model.CreateCategoryRequest;
+import ru.max.demo.elastic.model.UpdateCategoryRequest;
 import ru.max.demo.elastic.model.cateogries.Categories;
 import ru.max.demo.elastic.model.cateogries.Category;
 import ru.max.demo.elastic.model.cateogries.attrs.Attr;
@@ -126,7 +127,7 @@ public class CategoriesController {
     @PutMapping("/{id}")
     @Operation(description = "Update category")
     public CategoryResponse updateCategory(@PathVariable("id") String categoryId,
-                                           @RequestBody CreateCategoryRequest request) {
+                                           @RequestBody UpdateCategoryRequest request) {
         return CategoryResponse.builder()
                 .category(categoriesService.updateCategory(categoryId, request))
                 .build();

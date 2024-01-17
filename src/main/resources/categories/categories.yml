@@ -25,7 +25,7 @@ attributes:
     - type: date
       name: creation-date
       ru-name: дата изготовления
-    - type: list
+    - type: string
       name: materials
       ru-name: материалы
       required: true
@@ -35,7 +35,6 @@ attributes:
       colors:
         - hex: '#0000ff'
           name: синий
-          shades:
             - hex: '#00ffff'
               name: голубой
             - hex: '#40e0d0'
